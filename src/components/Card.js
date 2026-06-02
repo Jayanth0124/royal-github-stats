@@ -9,7 +9,12 @@ export function generateCardSvg(stats, themeName = 'royal') {
   const lang2 = langs[1] || { name: 'JavaScript', percent: 60, color: '#e34c26' };
   const lang3 = langs[2] || { name: 'HTML', percent: 50, color: '#563d7c' };
 
-  const getBarHeight = (percent) => Math.max((percent / 100) * 110, 10);
+  // Fixed: Scale bars proportionally, max 100px to prevent overlap
+  const getBarHeight = (percent) => {
+    const maxHeight = 100;
+    const maxPercent = Math.max(lang1.percent, lang2.percent, lang3.percent);
+    return Math.max((percent / maxPercent) * maxHeight, 5);
+  };
 
   return `
     <svg width="850" height="480" viewBox="0 0 850 480" fill="none" xmlns="http://www.w3.org/2000/svg">
